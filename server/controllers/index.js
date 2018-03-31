@@ -1,5 +1,4 @@
 var models = require('../models');
-var url = require('url');
 
 var exampleData = [{
   username: 'fred',
@@ -18,29 +17,35 @@ var headers = {
 module.exports = {
   messages: {
     get: function (req, res) {
+      console.log('in get response for messages')
       var response = {
         results: exampleData
       };
       res.writeHead(200, headers);
-      res.end(response);
+      res.end(JSON.stringify(response));
     }, // a function which handles a get request for all messages
     post: function (req, res) {
-      var newMessage = [];
-      req
-        .on('data', chunk => newMessage.push(chunk)) // don't need to chunk because express takes care of it
-        .on('end'), () => {
-          newMessage = JSON.parse(newMessage.join('')); // we don't have to parse, body parser should take care of it
-          exampleData.unshift(newMessage); // will delete this once connected to db 
-        };
       res.writeHead(201, headers);
+      // console.log('models is: ', models);
+      // console.log('models.messages is : ', models.messages)
+      models.messages.post(exampleData[0]);
       res.end();
     } // a function which handles posting a message to the database
   },
 
   users: {
     // Ditto as above
-    get: function (req, res) {},
-    post: function (req, res) {}
+    get: function (req, res) {
+      var response = {
+        results: exampleData
+      };
+      res.writeHead(200, headers);
+      res.end(JSON.stringify(response));
+      },
+    post: function (req, res) {
+      res.writeHead(201, headers);
+      res.end();
+    }
   }
 };
 
