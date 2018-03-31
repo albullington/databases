@@ -17,9 +17,9 @@ CREATE TABLE Rooms (
 
 CREATE TABLE Messages (
   id int not null auto_increment,
-  username_id int not null, /* connect foreign key */
+  username_id int not null DEFAULT 1, /* connect foreign key */
   message_text text,
-  room_id int, /* connect foreign key */
+  room_id int not null DEFAULT 1, /* connect foreign key */
   PRIMARY KEY (id),
   FOREIGN KEY (username_id) REFERENCES Users(id),
   FOREIGN KEY (room_id) REFERENCES Rooms(id)

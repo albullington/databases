@@ -6,27 +6,41 @@ var db = require('../db');
 module.exports = {
   messages: {
     get: function () {}, // a function which produces all the messages
-    post: function (messageObj) { // add @ symbol here?
+    post: function (messageArray, callback) { // add @ symbol here?
       console.log('got to models post function');
-      db.connection.query("INSERT INTO Users (username) VALUES ('$messageObj.username');", function(err) {
+      db.connection.query('INSERT INTO Messages SET ?', {message_text: messageArray[1]}, function(err) {
         if (err) {throw err;}
       });
-      db.connection.query("INSERT INTO Rooms (roomname) VALUES ('$messageObj.roomname');", function(err) {
-        if (err) {throw err;}
-      });
-      db.connection.query("INSERT INTO Messages (message_text) VALUES ('$messageObj.text');", function(err) {
-        if (err) {throw err;}
-      });
+    callback();
     }
   },
 
   users: {
     // Ditto as above.
     get: function () {},
-    post: function () {}
+    post: function () {
+      db.connection.query('INSERT INTO Users SET ?', {username: messageArray[0]}, function(err) {
+        if (err) {throw err;}
+      });
+    }
   }
-};
+}
 
 // this file is us talking to database, sending the database get and post requests
 
 // declare vars in mysql with dollar sign $????
+
+
+// connection.query('SELECT * FROM `books` WHERE `author` = "David"', function (error, results, fields) {
+
+// var exampleData = {
+//   username: 'fred',
+//   text: 'hey there',
+//   roomname: 'lobby'
+// }
+
+// var post  = {id: 1, title: 'Hello MySQL'};
+// var query = connection.query('INSERT INTO posts SET ?', post, function (error, results, fields) {
+//   if (error) throw error;
+//   // Neat!
+// });

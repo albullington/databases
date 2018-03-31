@@ -26,10 +26,11 @@ module.exports = {
     }, // a function which handles a get request for all messages
     post: function (req, res) {
       res.writeHead(201, headers);
-      // console.log('models is: ', models);
-      // console.log('models.messages is : ', models.messages)
-      models.messages.post(exampleData[0]);
-      res.end();
+      var messageArray = [req.body.username, req.body.text, req.body.roomname];
+      models.messages.post(messageArray, function(err, success) {
+        if (err) {return err;}
+        res.end();
+      }); // pass in array of arguments
     } // a function which handles posting a message to the database
   },
 
