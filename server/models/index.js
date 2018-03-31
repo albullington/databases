@@ -13,3 +13,4 @@ module.exports = {
   }
 };
 
+// this file is us talking to database, sending the database get and post requests
